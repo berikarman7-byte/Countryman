@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Country Simulator V2 — World Strategy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">🌐</span><div><b>COUNTRY SIMULATOR</b><small>WORLD STRATEGY • V2.0</small></div></div>
+    <div class="top-status"><span id="dateLabel">Январь 2026</span><span class="status-dot"></span><span id="gameStatus">Пауза</span></div>
+    <div class="top-actions"><button class="icon-btn" id="saveBtn" title="Сохранить">💾</button><button class="icon-btn" id="helpBtn" title="Помощь">?</button></div>
+  </header>
+
+  <section class="nation-banner">
+    <div class="flag-large" id="flagLarge">🇰🇿</div>
+    <div class="nation-title"><span class="eyebrow">ВАШЕ ГОСУДАРСТВО</span><h1 id="countryName">Республика Астана</h1><p id="countrySubtitle">Столица: Астана • Президентская республика</p></div>
+    <div class="banner-rank"><span>МИРОВОЙ РЕЙТИНГ</span><strong id="rankValue">#42</strong><small id="rankText">Развивающаяся держава</small></div>
+  </section>
+
+  <div class="main-layout">
+    <aside class="sidebar">
+      <button class="nav-btn active" data-page="overview">▦ <span>Обзор</span></button>
+      <button class="nav-btn" data-page="economy">◈ <span>Экономика</span></button>
+      <button class="nav-btn" data-page="resources">◆ <span>Ресурсы</span></button>
+      <button class="nav-btn" data-page="military">⚔ <span>Армия</span></button>
+      <button class="nav-btn" data-page="diplomacy">◎ <span>Дипломатия</span></button>
+      <button class="nav-btn" data-page="politics">▤ <span>Политика</span></button>
+      <button class="nav-btn" data-page="research">⌬ <span>Наука</span></button>
+      <button class="nav-btn" data-page="world">🌍 <span>Мир</span></button>
+      <button class="nav-btn" data-page="development">🏗️ <span>Развитие</span></button>
+      <div class="sidebar-bottom"><div class="mini-label">УПРАВЛЕНИЕ ВРЕМЕНЕМ</div><button id="pauseBtn" class="wide-btn">▶ Продолжить</button><div class="speed-row"><button data-speed="1" class="speed active">1×</button><button data-speed="2" class="speed">2×</button><button data-speed="4" class="speed">4×</button></div><button id="monthBtn" class="wide-btn secondary">Следующий месяц →</button></div>
+    </aside>
+
+    <main class="content">
+      <div id="toast" class="toast"></div>
+      <section class="page active" id="page-overview">
+        <div class="page-heading"><div><span class="eyebrow">ПАНЕЛЬ ПРЕЗИДЕНТА</span><h2>Состояние государства</h2></div><button class="primary-btn" id="eventBtn">🎲 Событие дня</button></div>
+        <div class="stat-grid">
+          <article class="stat-card"><span>ВВП</span><strong id="gdpStat">$245 млрд</strong><small class="positive" id="gdpChange">+2.4% за год</small></article>
+          <article class="stat-card"><span>КАЗНА</span><strong id="treasuryStat">$18.5 млрд</strong><small id="budgetChange">Баланс бюджета</small></article>
+          <article class="stat-card"><span>НАСЕЛЕНИЕ</span><strong id="populationStat">19.8 млн</strong><small class="muted">Жителей</small></article>
+          <article class="stat-card"><span>СЧАСТЬЕ</span><strong id="happinessStat">68/100</strong><div class="meter"><i id="happinessMeter" style="width:68%"></i></div></article>
+          <article class="stat-card"><span>СТАБИЛЬНОСТЬ</span><strong id="stabilityStat">76/100</strong><div class="meter"><i id="stabilityMeter" style="width:76%"></i></div></article>
+          <article class="stat-card"><span>АРМИЯ</span><strong id="armyStat">185 тыс.</strong><small class="muted" id="armyPower">Боеготовность 82%</small></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel chart-panel"><div class="panel-head"><div><span class="eyebrow">ЭКОНОМИКА</span><h3>Динамика ВВП</h3></div><span class="pill green">Последние 12 месяцев</span></div><canvas id="gdpChart" height="180"></canvas></article>
+          <article class="panel"><div class="panel-head"><div><span class="eyebrow">ГОСУДАРСТВО</span><h3>Ключевые показатели</h3></div></div><div class="metric-list"><div><span>Инфляция</span><b id="inflationValue">7.2%</b></div><div><span>Безработица</span><b id="unemploymentValue">5.1%</b></div><div><span>Госдолг</span><b id="debtValue">$92 млрд</b></div><div><span>Одобрение президента</span><b id="approvalValue">64%</b></div><div><span>Мировое влияние</span><b id="influenceValue">38/100</b></div></div></article>
+          <article class="panel"><div class="panel-head"><div><span class="eyebrow">ПОСЛЕДНИЕ НОВОСТИ</span><h3>Лента событий</h3></div></div><div id="newsFeed" class="news-feed"></div></article>
+          <article class="panel quick-panel"><div class="panel-head"><div><span class="eyebrow">БЫСТРЫЕ ДЕЙСТВИЯ</span><h3>Решения президента</h3></div></div><button class="action-row" data-action="roads">🛣️ <span><b>Строить дороги</b><small>Инфраструктура +</small></span><strong>$1.2 млрд</strong></button><button class="action-row" data-action="schools">🎓 <span><b>Открыть школы</b><small>Образование +</small></span><strong>$0.8 млрд</strong></button><button class="action-row" data-action="industry">🏭 <span><b>Построить завод</b><small>Промышленность +</small></span><strong>$2.5 млрд</strong></button></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-economy">
+        <div class="page-heading"><div><span class="eyebrow">ГОСУДАРСТВЕННЫЕ ФИНАНСЫ</span><h2>Экономика</h2></div><span class="pill blue">Бюджетный год 2026</span></div>
+        <div class="stat-grid compact"><article class="stat-card"><span>ГОДОВОЙ ВВП</span><strong id="econGDP">$245 млрд</strong></article><article class="stat-card"><span>ДОХОДЫ / МЕС.</span><strong id="incomeStat">$2.8 млрд</strong></article><article class="stat-card"><span>РАСХОДЫ / МЕС.</span><strong id="expenseStat">$2.4 млрд</strong></article><article class="stat-card"><span>БЮДЖЕТНЫЙ БАЛАНС</span><strong id="balanceStat" class="positive">+$0.4 млрд</strong></article></div>
+        <div class="two-col"><article class="panel"><div class="panel-head"><div><span class="eyebrow">НАЛОГОВАЯ ПОЛИТИКА</span><h3>Настройка налогов</h3></div></div><div class="slider-control"><label>Подоходный налог <b id="incomeTaxLabel">10%</b></label><input id="incomeTax" type="range" min="0" max="35" value="10"></div><div class="slider-control"><label>Налог на бизнес <b id="businessTaxLabel">18%</b></label><input id="businessTax" type="range" min="0" max="35" value="18"></div><div class="slider-control"><label>НДС <b id="vatLabel">12%</b></label><input id="vat" type="range" min="0" max="25" value="12"></div><button class="primary-btn" id="applyTaxes">Применить налоговую реформу</button></article><article class="panel"><div class="panel-head"><div><span class="eyebrow">РАСХОДЫ БЮДЖЕТА</span><h3>Распределение средств</h3></div></div><div id="spendingList" class="spending-list"></div><p class="hint">Изменение расходов влияет на качество услуг, стабильность и экономический рост.</p></article></div>
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">СЕКТОРЫ</span><h3>Отрасли экономики</h3></div></div><div id="sectorsGrid" class="sector-grid"></div></article>
+      </section>
+
+      <section class="page" id="page-resources">
+        <div class="page-heading"><div><span class="eyebrow">ПРИРОДНЫЕ БОГАТСТВА</span><h2>Ресурсы страны</h2></div><span class="pill green">Добыча каждый месяц</span></div>
+        <div class="resource-grid" id="resourceGrid"></div>
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">ДОБЫВАЮЩАЯ ПРОМЫШЛЕННОСТЬ</span><h3>Развитие месторождений</h3></div></div><div id="resourceProjects" class="project-list"></div></article>
+      </section>
+
+      <section class="page" id="page-military">
+        <div class="page-heading"><div><span class="eyebrow">МИНИСТЕРСТВО ОБОРОНЫ</span><h2>Вооружённые силы</h2></div><span class="pill red">Оборонная готовность</span></div>
+        <div class="military-hero"><div><span class="eyebrow">ОБЩАЯ ЧИСЛЕННОСТЬ</span><strong id="militaryTotal">185 000</strong><small>военнослужащих</small></div><div class="readiness"><span>Боеготовность</span><b id="readinessValue">82%</b><div class="meter"><i id="readinessMeter" style="width:82%"></i></div></div></div>
+        <div class="branch-grid" id="branchGrid"></div>
+        <div class="two-col"><article class="panel"><div class="panel-head"><div><span class="eyebrow">ВОЕННЫЕ ЗАКУПКИ</span><h3>Модернизация армии</h3></div></div><div id="militaryProjects" class="project-list"></div></article><article class="panel"><div class="panel-head"><div><span class="eyebrow">ОБОРОННЫЙ БЮДЖЕТ</span><h3>Военные расходы</h3></div></div><div class="slider-control"><label>Доля бюджета <b id="militaryBudgetLabel">12%</b></label><input id="militaryBudget" type="range" min="2" max="30" value="12"></div><p class="hint">Высокие расходы повышают готовность, но сокращают деньги на гражданские программы.</p><button class="primary-btn" id="applyMilitaryBudget">Утвердить бюджет</button></article></div>
+      </section>
+
+      <section class="page" id="page-diplomacy">
+        <div class="page-heading"><div><span class="eyebrow">МИНИСТЕРСТВО ИНОСТРАННЫХ ДЕЛ</span><h2>Дипломатия</h2></div><span class="pill blue">Международные отношения</span></div>
+        <div class="diplomacy-summary"><div><b id="allyCount">2</b><span>Союзника</span></div><div><b id="tradeCount">4</b><span>Торговых партнёра</span></div><div><b id="relationAvg">+18</b><span>Средние отношения</span></div></div>
+        <div class="country-list" id="diplomacyList"></div>
+      </section>
+
+      <section class="page" id="page-politics">
+        <div class="page-heading"><div><span class="eyebrow">ВНУТРЕННЯЯ ПОЛИТИКА</span><h2>Политическая система</h2></div><span class="pill gold">Президентский кабинет</span></div>
+        <div class="two-col"><article class="panel"><div class="panel-head"><div><span class="eyebrow">ОБЩЕСТВО</span><h3>Настроения населения</h3></div></div><div class="metric-list"><div><span>Одобрение президента</span><b id="polApproval">64%</b></div><div><span>Стабильность</span><b id="polStability">76/100</b></div><div><span>Счастье населения</span><b id="polHappiness">68/100</b></div><div><span>Коррупция</span><b id="corruptionValue">28/100</b></div></div></article><article class="panel"><div class="panel-head"><div><span class="eyebrow">ПРЕЗИДЕНТСКИЕ РЕШЕНИЯ</span><h3>Законы и реформы</h3></div></div><div id="lawList" class="project-list"></div></article></div>
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">ПОЛИТИЧЕСКИЙ КАЛЕНДАРЬ</span><h3>Важные события</h3></div></div><div id="politicalCalendar" class="news-feed"></div></article>
+      </section>
+
+      <section class="page" id="page-research">
+        <div class="page-heading"><div><span class="eyebrow">МИНИСТЕРСТВО НАУКИ</span><h2>Исследования и технологии</h2></div><span class="pill purple">Научный прогресс</span></div>
+        <div class="research-top"><div><span>Научные очки</span><strong id="sciencePoints">120</strong></div><div><span>Уровень технологий</span><strong id="techLevel">Уровень 2</strong></div></div>
+        <div id="researchGrid" class="research-grid"></div>
+      </section>
+
+      <section class="page" id="page-world">
+        <div class="page-heading"><div><span class="eyebrow">ГЕОПОЛИТИЧЕСКАЯ КАРТА • V2</span><h2>Мировая арена</h2></div><button class="primary-btn" id="chooseNationBtn">🏳️ Выбрать страну</button></div>
+        <div class="world-map-v2 panel">
+          <div class="map-toolbar"><div><span class="eyebrow">ИНТЕРАКТИВНАЯ КАРТА</span><h3>Государства мира</h3><p>Нажми на маркер, чтобы открыть досье государства.</p></div><div class="map-legend"><span><i class="legend-dot home"></i> Ваша страна</span><span><i class="legend-dot power"></i> Крупные державы</span><span><i class="legend-dot other"></i> Другие страны</span></div></div>
+          <div class="world-map-canvas" id="worldMapCanvas">
+            <svg class="continent-art" viewBox="0 0 1000 500" role="img" aria-label="Стилизованная карта мира">
+              <defs><linearGradient id="sea" x1="0" x2="1"><stop stop-color="#0c2238"/><stop offset="1" stop-color="#15334a"/></linearGradient></defs>
+              <rect width="1000" height="500" rx="18" fill="url(#sea)"/>
+              <g fill="#284d50" stroke="#47736c" stroke-width="2" opacity=".92">
+                <path d="M70 95 L120 52 185 58 220 90 205 130 230 160 205 205 170 220 155 270 120 260 100 215 75 190 58 145Z"/>
+                <path d="M205 270 L245 285 270 340 250 400 220 455 200 410 185 350Z"/>
+                <path d="M410 90 L455 65 520 75 545 105 520 130 470 128 450 160 420 145Z"/>
+                <path d="M465 165 L520 150 565 180 575 245 550 315 515 370 485 335 470 270 445 220Z"/>
+                <path d="M535 80 L600 48 700 55 770 85 840 115 870 160 830 190 780 180 745 215 700 200 675 165 620 175 580 145Z"/>
+                <path d="M770 265 L820 250 860 275 850 320 810 340 780 315Z"/>
+                <path d="M875 380 L920 365 945 390 930 420 890 425Z"/>
+                <path d="M365 85 L385 75 395 95 380 112Z"/>
+                <path d="M575 365 L610 350 635 365 620 390 590 395Z"/>
+              </g>
+              <g fill="none" stroke="#6e9a91" stroke-width="1" opacity=".3"><path d="M0 125H1000M0 250H1000M0 375H1000"/><path d="M250 0V500M500 0V500M750 0V500"/></g>
+              <text x="120" y="470" fill="#9bb9bd" font-size="15" opacity=".65">ТИХИЙ ОКЕАН</text><text x="720" y="460" fill="#9bb9bd" font-size="15" opacity=".65">ИНДИЙСКИЙ ОКЕАН</text>
+            </svg>
+            <div id="mapMarkers" class="map-markers"></div>
+          </div>
+          <div class="map-selected" id="mapSelected"><span class="eyebrow">ВЫБРАННОЕ ГОСУДАРСТВО</span><b>Выберите страну на карте</b><small>Данные используются в игровой симуляции и являются условными.</small></div>
+        </div>
+        <div class="world-directory panel"><div class="panel-head"><div><span class="eyebrow">СПРАВОЧНИК</span><h3>Страны и регионы</h3></div><input id="countrySearch" class="form-input country-search" placeholder="Поиск страны..."></div><div id="worldDirectory" class="world-directory-grid"></div></div>
+        <div class="two-col">
+          <article class="panel"><div class="panel-head"><div><span class="eyebrow">ГЛОБАЛЬНАЯ ЭКОНОМИКА</span><h3>Мировые показатели</h3></div></div><div class="metric-list"><div><span>Стран в базе</span><b id="worldCountryCount">30</b></div><div><span>Суммарный ВВП базы</span><b id="worldGdpTotal">—</b></div><div><span>Активные торговые связи</span><b id="worldTradeCount">—</b></div><div><span>Мировая напряжённость</span><b id="worldTension">24/100</b></div></div></article>
+          <article class="panel"><div class="panel-head"><div><span class="eyebrow">ГЛОБАЛЬНЫЕ НОВОСТИ</span><h3>Международная обстановка</h3></div></div><div id="worldNews" class="news-feed"></div></article>
+        </div>
+      </section>
+      <section class="page" id="page-development">
+        <div class="page-heading"><div><span class="eyebrow">НАЦИОНАЛЬНЫЕ ПРОЕКТЫ • V2</span><h2>Развитие страны</h2></div><span class="pill green">Долгосрочная стратегия</span></div>
+        <div class="stat-grid compact">
+          <article class="stat-card"><span>ПРОМЫШЛЕННОСТЬ</span><strong id="industryLevel">22</strong><small>Индекс развития</small></article>
+          <article class="stat-card"><span>ИНФРАСТРУКТУРА</span><strong id="infraLevel">16</strong><small>Индекс развития</small></article>
+          <article class="stat-card"><span>ОБРАЗОВАНИЕ</span><strong id="educationLevel">18</strong><small>Бюджетный индекс</small></article>
+          <article class="stat-card"><span>ЭНЕРГЕТИКА</span><strong id="energyLevel">—</strong><small>Производственная мощность</small></article>
+        </div>
+        <div class="development-grid" id="developmentGrid"></div>
+        <article class="panel"><div class="panel-head"><div><span class="eyebrow">НАЦИОНАЛЬНЫЕ ЦЕЛИ</span><h3>Путь к процветанию</h3></div></div><div id="nationalGoals" class="goal-list"></div></article>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal" id="modal"><button class="modal-close" id="modalClose">×</button><div id="modalContent"></div></div></div>
+<script src="script.js"></script>
+</body>
+</html>
